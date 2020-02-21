@@ -1,0 +1,9 @@
+image: hackfeed/iu7games
+build:
+  script:
+    - $CI_COMMIT_REF_NAME
+  after_script:
+    - rm -f *.o
+  artifacts:
+    paths:
+      - ./*.so
