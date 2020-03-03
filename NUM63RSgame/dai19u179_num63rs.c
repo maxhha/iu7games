@@ -1,17 +1,18 @@
 #include <stdio.h>
+
 #define COUNTS_N 100
 
 int numbers_game(int min, int max)
 {
     int counts[COUNTS_N] = {0};
-    int simples[COUNTS_N] = {2, 3, 5, 7, 11, 13, 17, 19, 23};
-    int simples_n = 9;
+    int simples[COUNTS_N] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+    int simples_n = 20;
 
     if (min == 1) {
       min = 2;
     }
 
-    int c, j, m, is_simple, k, z;
+    int c, j, m, is_simple, k, z, x, p, r, result = 1;
     for(int i = max; i >= min; i--) {
 
       c = i;
@@ -23,7 +24,18 @@ int numbers_game(int min, int max)
         }
 
         if (m > counts[j]) {
+          p = m - counts[j];
           counts[j] = m;
+          x = simples[j];
+          r = 1;
+
+          for(; p > 0; p >>= 1) {
+            if (p & 1) {
+              r *= x;
+            }
+            x *= x;
+          }
+          result *= r;
         }
       }
 
@@ -46,25 +58,23 @@ int numbers_game(int min, int max)
         }
 
         if (m > counts[j]) {
+          p = m - counts[j];
           counts[j] = m;
+          x = simples[j];
+          r = 1;
+
+          for(; p > 0; p >>= 1) {
+            if (p & 1) {
+              r *= x;
+            }
+            x *= x;
+          }
+          result *= r;
         }
       }
 
       simples_n = j;
     }
 
-    int x, p, r = 1;
-
-    for(int i = 0; i < simples_n; i++)
-    {
-        x = simples[i];
-        p = counts[i];
-        for(; p > 0; p >>= 1) {
-          if (p & 1) {
-            r *= x;
-          }
-          x *= x;
-        }
-    }
-    return r;
+    return result;
 }
