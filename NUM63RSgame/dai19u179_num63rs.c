@@ -2,11 +2,12 @@
 
 #define COUNTS_N 100
 
+int simples[COUNTS_N] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+int simples_n = 20;
+
 int numbers_game(int min, int max)
 {
     int counts[COUNTS_N] = {0};
-    int simples[COUNTS_N] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
-    int simples_n = 20;
 
     if (min == 1) {
       min = 2;
