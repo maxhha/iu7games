@@ -40,9 +40,9 @@ int is_win(char **bf, const int field_size, int pos) {
 }
 
 #define PLAYOUTS_NUMBER 200
-#define CACHE_SIZE 200
+#define CACHE_SIZE 100
 #define EMPTY 0
-#define MCTS_COEF 1.4
+#define MCTS_COEF 8
 long long int cache_table[CACHE_SIZE];
 int cache_table_visits[CACHE_SIZE];
 int cache_table_wins[CACHE_SIZE];
@@ -420,10 +420,12 @@ int xogame(char **bf, const int field_size, const char symb) {
         h_i = add_hash_to_cache(h);
     }
 
+
+
     for(int i = 0; cache_filled_size < CACHE_SIZE && i < PLAYOUTS_NUMBER; i++) {
-        mcts_playout(m, field_size, symb, 2);
         cache_update_code++;
         update_cache(m, field_size, symb);
+        mcts_playout(m, field_size, symb, 2);
     }
 
     double max_value = -1;
