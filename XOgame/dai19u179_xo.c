@@ -373,12 +373,12 @@ void mcts_playout(char *m, int field_size, char symb, int level) {
 }
 
 int xogame(char **bf, const int field_size, const char symb) {
-    char field[5][5];
+    char field[25];
     char *m = (char *) field;
 
     for(int y = 0; y < field_size; y++) {
         for(int x = 0; x < field_size; x++) {
-            *(m + y*field_size + x) = *((char *)bf + y*field_size + x);
+            *(m + y*field_size + x) = bf[y][x];
         }
     }
 
