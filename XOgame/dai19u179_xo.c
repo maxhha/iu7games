@@ -162,7 +162,7 @@ int get_random_finish_state(char *m, int field_size, char symb) {
     return -opponent;
 }
 
-void update_cache(char *m, int field_size, int symb)
+void update_cache(char *m, int field_size, char symb)
 {
     hash m_h = field_hash(m, field_size);
     int m_h_i = find_cache_index(m_h);
@@ -181,7 +181,7 @@ void update_cache(char *m, int field_size, int symb)
     }
 
     if (count_empty == 1) {
-        int step;
+        int step = -1;
         for(int i = 0; i < field_sqr; i++) {
             if (*(m + i) == ' ') {
                 step = i;
@@ -263,11 +263,11 @@ void mcts_playout(char *m, int field_size, char symb, int level) {
 
     double max_value = -1;
     int max_value_cache_i = -1;
-    int max_value_step1;
-    int max_value_step2;
+    int max_value_step1 = -1;
+    int max_value_step2 = -1;
 
     for(int i = 0; i < field_sqr; i++) {
-        int step1;
+        int step1 = -1; 
         while(1) {
             step1 = get_rand() % field_sqr;
             if (*(m + step1) == ' ') {
