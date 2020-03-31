@@ -267,7 +267,7 @@ void mcts_playout(char *m, int field_size, char symb, int level) {
     int max_value_step2 = -1;
 
     for(int i = 0; i < field_sqr; i++) {
-        int step1 = -1; 
+        int step1 = -1;
         while(1) {
             step1 = get_rand() % field_sqr;
             if (*(m + step1) == ' ') {
@@ -420,7 +420,7 @@ int xogame(char **bf, const int field_size, const char symb) {
     }
 
     double max_value = -1;
-    int max_value_step;
+    int max_value_step = -1;
 
     for(int step1 = 0; step1 < field_size * field_size; step1++) {
         if (*(m + step1) != ' ') continue;
