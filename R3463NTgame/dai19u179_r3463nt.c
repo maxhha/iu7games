@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#define LOG_LEVEL INFO_LEVEL
+#define LOG_LEVEL NO_LOG
 #include "macrologger.h"
 
 int splash_bomb(int move, char **field, const int field_size)
@@ -180,7 +180,7 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
 
             LOG_DEBUG("    splash_bomb%s", "");
 
-            int score = splash_bomb(move, nbf, size) - 1;
+            int score = splash_bomb(move, nbf, size) - 2;
 
             LOG_DEBUG("    simulate%s", "");
             score += get_outstanding_move(nbf, size, strategic_level - 1, move).score;
@@ -208,7 +208,7 @@ int reagent_game(char **bf, const int size)
 {
     LOG_DEBUG(" x     y     l%s", "");
 
-    result_t result = get_outstanding_move(bf, size, 5, -1);
+    result_t result = get_outstanding_move(bf, size, size == 10 ? 5 : 3, -1);
 
     LOG_INFO("score = %d", result.score);
 
