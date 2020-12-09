@@ -49,7 +49,10 @@ char **copy_bf(char **bf, const int size)
     {
         rows[i] = malloc((size_t) size * sizeof(char));
         if (!rows[i])
+        {
             LOG_ERROR("fail to malloc%s", "");
+        }
+        
         memcpy(rows[i], bf[i], (size_t) size * sizeof(char));
     }
     return rows;
@@ -153,7 +156,7 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
     {
         LOG_ERROR("fail to malloc%s", "");
     }
-    
+
     for (int i = 0; i < size * size; i++)
         visited_groups[i] = 0;
 
