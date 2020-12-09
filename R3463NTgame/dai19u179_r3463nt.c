@@ -38,17 +38,19 @@ int splash_bomb(int move, char **field, const int field_size)
 
 char **copy_bf(char **bf, const int size)
 {
-    char **rows = malloc(sizeof(char *) * size);
+    char **rows = malloc(sizeof(char *) * (size_t) size);
 
     if (!rows)
+    {
         LOG_ERROR("fail to malloc%s", "");
+    }
 
     for (int i = 0; i < size; i++)
     {
-        rows[i] = malloc(size * sizeof(char));
+        rows[i] = malloc((size_t) size * sizeof(char));
         if (!rows[i])
             LOG_ERROR("fail to malloc%s", "");
-        memcpy(rows[i], bf[i], size * sizeof(char));
+        memcpy(rows[i], bf[i], (size_t) size * sizeof(char));
     }
     return rows;
 }
@@ -70,7 +72,7 @@ int is_empty_bf(char **bf, int size)
     return 1;
 }
 
-int get_group(int *map, const int size, int pos)
+int get_group(int *map, int pos)
 {
     while (map[pos] != pos)
         pos = map[pos];
@@ -80,10 +82,12 @@ int get_group(int *map, const int size, int pos)
 
 int *calc_groups_map(char **bf, const int size)
 {
-    int *m = malloc(size * size * sizeof(int));
+    int *m = malloc((size_t) (size * size) * sizeof(int));
 
     if (!m)
+    {
         LOG_ERROR("fail to malloc%s", "");
+    }
 
     for (int i = 0; i < size * size; i++)
         m[i] = i;
@@ -101,23 +105,23 @@ int *calc_groups_map(char **bf, const int size)
 
             if (top && left)
             {
-                int left_g = get_group(m, size, p - 1);
-                int top_g = get_group(m, size, p - size);
+                int left_g = get_group(m, p - 1);
+                int top_g = get_group(m, p - size);
 
                 m[p] = m[top_g] = left_g;
             }
             else if (top)
             {
-                m[p] = get_group(m, size, p - size);
+                m[p] = get_group(m, p - size);
             }
             else if (left)
             {
-                m[p] = get_group(m, size, p - 1);
+                m[p] = get_group(m, p - 1);
             }
         }
 
     for (int i = 0; i < size * size; i++)
-        m[i] = get_group(m, size, i);
+        m[i] = get_group(m, i);
 
     return m;
 }
@@ -139,13 +143,17 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
     LOG_DEBUG("create groups_map%s", "");
     int *groups_map = calc_groups_map(bf, size);
     if (!groups_map)
+    {
         LOG_ERROR("fail to malloc%s", "");
+    }
 
     LOG_DEBUG("create visited_groups%s", "");
-    char *visited_groups = malloc(size * size * sizeof(char));
+    char *visited_groups = malloc((size_t) (size * size) * sizeof(char));
     if (!visited_groups)
+    {
         LOG_ERROR("fail to malloc%s", "");
-
+    }
+    
     for (int i = 0; i < size * size; i++)
         visited_groups[i] = 0;
 
