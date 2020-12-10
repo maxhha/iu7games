@@ -158,16 +158,13 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
     }
 
     LOG_DEBUG("create visited_groups%s", "");
-    char *visited_groups = malloc((size_t) (size * size) * sizeof(char));
+    char *visited_groups = calloc((size_t) (size * size), sizeof(char));
     if (!visited_groups)
     {
         LOG_ERROR("fail to malloc%s", "");
         free(groups_map);
         return result;
     }
-
-    for (int i = 0; i < size * size; i++)
-        visited_groups[i] = 0;
 
     for (int y = 0; y < size; y++)
         for (int x = 0; x < size; x++)
@@ -232,7 +229,7 @@ int reagent_game(char **bf, const int size)
 {
     LOG_DEBUG(" x     y     l%s", "");
 
-    result_t result = get_outstanding_move(bf, size, size <= 10 ? 3 : size <= 20 ? 2 : 1, -1);
+    result_t result = get_outstanding_move(bf, size, size <= 10 ? 4 : size <= 20 ? 3 : 1, -1);
 
     LOG_INFO("score = %d", result.score);
 
