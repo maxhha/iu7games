@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#define LOG_LEVEL NO_LOG
+#define LOG_LEVEL ERROR_LEVEL
 #include "macrologger.h"
 
 int splash_bomb(int move, char **field, const int field_size)
@@ -43,6 +43,7 @@ char **copy_bf(char **bf, const int size)
     if (!rows)
     {
         LOG_ERROR("fail to malloc%s", "");
+        return NULL;
     }
 
     for (int i = 0; i < size; i++)
@@ -51,6 +52,10 @@ char **copy_bf(char **bf, const int size)
         if (!rows[i])
         {
             LOG_ERROR("fail to malloc%s", "");
+            for (int j = 0; j < size; j++)
+                free(rows[j]);
+            free(rows);
+            return NULL;
         }
 
         memcpy(rows[i], bf[i], (size_t) size * sizeof(char));
@@ -90,6 +95,7 @@ int *calc_groups_map(char **bf, const int size)
     if (!m)
     {
         LOG_ERROR("fail to malloc%s", "");
+        return NULL;
     }
 
     for (int i = 0; i < size * size; i++)
@@ -148,6 +154,7 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
     if (!groups_map)
     {
         LOG_ERROR("fail to malloc%s", "");
+        return result;
     }
 
     LOG_DEBUG("create visited_groups%s", "");
@@ -155,6 +162,8 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
     if (!visited_groups)
     {
         LOG_ERROR("fail to malloc%s", "");
+        free(groups_map);
+        return result;
     }
 
     for (int i = 0; i < size * size; i++)
@@ -189,6 +198,9 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
 
             char **nbf = copy_bf(bf, size);
 
+            if (nbf == NULL)
+                goto finish;
+
             LOG_DEBUG("    splash_bomb%s", "");
 
             int score = splash_bomb(move, nbf, size) - 2;
@@ -206,6 +218,7 @@ result_t get_outstanding_move(char **bf, const int size, int strategic_level, in
             }
         }
 
+finish:
     LOG_DEBUG("free visited_groups%s", "");
     free(visited_groups);
     LOG_DEBUG("free groups_map%s", "");
