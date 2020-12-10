@@ -232,7 +232,7 @@ int reagent_game(char **bf, const int size)
 {
     LOG_DEBUG(" x     y     l%s", "");
 
-    result_t result = get_outstanding_move(bf, size, size <= 10 ? 5 : size <= 20 ? 3 : 1, -1);
+    result_t result = get_outstanding_move(bf, size, size <= 10 ? 3 : size <= 20 ? 2 : 1, -1);
 
     LOG_INFO("score = %d", result.score);
 
