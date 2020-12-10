@@ -52,7 +52,7 @@ char **copy_bf(char **bf, const int size)
         {
             LOG_ERROR("fail to malloc%s", "");
         }
-        
+
         memcpy(rows[i], bf[i], (size_t) size * sizeof(char));
     }
     return rows;
@@ -219,7 +219,7 @@ int reagent_game(char **bf, const int size)
 {
     LOG_DEBUG(" x     y     l%s", "");
 
-    result_t result = get_outstanding_move(bf, size, size == 10 ? 5 : 3, -1);
+    result_t result = get_outstanding_move(bf, size, size <= 10 ? 5 : size <= 20 ? 3 : 1, -1);
 
     LOG_INFO("score = %d", result.score);
 
